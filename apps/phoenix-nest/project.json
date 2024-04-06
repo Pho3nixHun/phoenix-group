@@ -1,0 +1,84 @@
+{
+  "name": "phoenix-nest",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "app",
+  "sourceRoot": "apps/phoenix-nest/src",
+  "tags": [],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/phoenix-nest",
+        "index": "apps/phoenix-nest/src/index.html",
+        "browser": "apps/phoenix-nest/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/phoenix-nest/tsconfig.app.json",
+        "inlineStyleLanguage": "scss",
+        "assets": [
+          "apps/phoenix-nest/src/favicon.ico",
+          "apps/phoenix-nest/src/assets"
+        ],
+        "styles": ["apps/phoenix-nest/src/styles.scss"],
+        "scripts": [],
+        "server": "apps/phoenix-nest/src/main.server.ts",
+        "prerender": true,
+        "ssr": {
+          "entry": "apps/phoenix-nest/server.ts"
+        }
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "configurations": {
+        "production": {
+          "buildTarget": "phoenix-nest:build:production"
+        },
+        "development": {
+          "buildTarget": "phoenix-nest:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "phoenix-nest:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint"
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/phoenix-nest/jest.config.ts"
+      }
+    }
+  }
+}
